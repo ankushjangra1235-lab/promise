@@ -1,174 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Promise Day 💖</title>
+<meta charset="UTF-8">
+<title>Chocolate Quest 🍫</title>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Segoe UI, sans-serif;
-        }
+<style>
+/* BODY CENTER */
+body {
+  margin: 0;
+  height: 100vh;
+  background: radial-gradient(circle, #2b1b17, #000);
+  font-family: 'Segoe UI', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  color: white;
+}
 
-        body {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #ff758c, #ff7eb3);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #fff;
-            padding: 15px;
-        }
+/* TRANSPARENT BOX */
+.container {
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 25px;
+  padding: 40px 50px;
+  width: 80%;
+  max-width: 700px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
 
-        /* SCENE BOX */
-        .scene {
-            display: none;
-            width: 100%;
-            max-width: 420px;
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(12px);
-            border-radius: 20px;
-            padding: 25px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        }
+.card.wrong {
+  animation: shake 0.3s;
+}
 
-        .scene.active {
-            display: block;
-        }
 
-        /* BUTTON */
-        button {
-            margin-top: 15px;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 30px;
-            background: #fff;
-            color: #ff4f7b;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-        }
 
-        /* PROMISE CARDS */
-        .promise {
-            background: rgba(255, 255, 255, 0.3);
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 14px;
-            font-size: 15px;
-        }
+/* SCENES */
+.scene {
+  display: none;
+  width: 100%;
+}
 
-        /* CHOICE */
-        .choice {
-            background: rgba(255, 255, 255, 0.35);
-            padding: 14px;
-            margin: 12px 0;
-            border-radius: 16px;
-            cursor: pointer;
-        }
+.scene.active {
+  display: block;
+}
 
-        /* FINAL */
-        #finalBox {
-            position: relative;
-            height: 220px;
-        }
+/* TEXT */
+h1 {
+  font-size: 42px;
+}
 
-        #noBtn {
-            position: absolute;
-        }
+p {
+  font-size: 18px;
+}
 
-        /* RESPONSIVE TEXT */
-        @media(max-width:400px) {
-            h1 {
-                font-size: 22px;
-            }
+/* BUTTONS */
+button {
+  margin-top: 25px;
+  padding: 15px 40px;
+  border: none;
+  border-radius: 30px;
+  font-size: 18px;
+  background: #ffb74d;
+  color: #4e342e;
+  cursor: pointer;
+}
 
-            h2 {
-                font-size: 20px;
-            }
+button:hover {
+  transform: scale(1.05);
+}
 
-            p {
-                font-size: 14px;
-            }
-        }
-    </style>
+/* CHOCOLATE CARDS */
+.cards {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.card {
+  background: rgba(255,255,255,0.15);
+  padding: 30px;
+  border-radius: 20px;
+  font-size: 60px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.1);
+  background: rgba(255,255,255,0.25);
+}
+
+#warning {
+  margin-top: 20px;
+  color: #ff8a80;
+  font-weight: bold;
+}
+/* RESPONSIVE DESIGN */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  h1 {
+    font-size: 32px;
+  }
+
+  p {
+    font-size: 16px;
+  }
+
+  .cards {
+    flex-direction: column; /* stack chocolates */
+    gap: 20px;
+  }
+
+  .card {
+    font-size: 50px;
+    padding: 25px;
+  }
+
+  button {
+    font-size: 16px;
+    padding: 12px 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 26px;
+  }
+
+  .card {
+    font-size: 45px;
+  }
+}
+
+/* FALLING CHOCOLATES */
+.choco {
+  position: fixed;
+  top: -20px;
+  font-size: 26px;
+  pointer-events: none;
+  animation: fall linear;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0.8;
+  }
+}
+</style>
 </head>
 
 <body>
 
-    <!-- SCENE 1 -->
-     
-    <div class="scene active">
-        <h1>Happy Promise Day 💖</h1>
-        <p>
-            Today is not about big words,<br>
-            it’s about real feelings ❤️
-        </p>
-        <button onclick="next()">Continue</button>
+<div class="container">
+
+
+  <!-- SCENE 1 -->
+   <audio id="bgMusic" src="" loop></audio>
+
+
+  <div class="scene active" id="s1">
+    <h1>🍫 Chocolate Quest 🍫</h1>
+    <p>Only one chocolate is special… choose wisely 😉</p>
+    <button onclick="go('s2')" onclick="startGame()">Enter 🍫</button>
+  </div>
+
+  <!-- SCENE 2 : CORRECT / WRONG -->
+  <div class="scene" id="s2">
+    <h1>Choose the Correct Chocolate</h1>
+
+    <div class="cards">
+      <div class="card" onclick="checkChocolate(0)">🍫</div>
+      <div class="card" onclick="checkChocolate(1)">🍫</div>
+      <div class="card" onclick="checkChocolate(2)">🍫</div>
     </div>
 
-    <!-- SCENE 2 PROMISE PAGE -->
-    <div class="scene">
-        <h2>My Promises To You 📜</h2>
+    <div id="warning"></div>
+  </div>
 
-        <div class="promise">🤍 I promise to respect you always</div>
-        <div class="promise">😊 I promise to make you smile</div>
-        <div class="promise">🤝 I promise to stand with you</div>
-        <div class="promise">❤️ I promise honesty & care</div>
+  <!-- SCENE 3 -->
+  <div class="scene" id="s3">
+    <h1>🍫 Chocolate Rain 🍫</h1>
+    <p>You chose the right sweetness 💖</p>
+    <button onclick="go('s4')">Final Surprise 🎁</button>
+  </div>
 
-        <button onclick="next()">Next</button>
-    </div>
+  <!-- SCENE 4 : WHOLESOME -->
+  <div class="scene" id="s4">
+    <h1>💝 sorry msg 💝</h1>
+    <p>
+      ho ske to mujhe maaf kerdo plzz,<br>
+      Mujhe pta hai kai dino se meri kuch galtiyo se tujhe bhut jyada presaniyon ka saamna kerna pda hai aur tujhe hurt bhi hua hai 
+      per main itna khena chahta hoon ki main kabhi bhi tujhe hurt hote hue bhi nhi dekh sakta 
+      <h3>sorry for all of my mistakes</h3>
+    </p>
 
-    <!-- SCENE 3 FUN CHOICE -->
-    <div class="scene">
-        <h2>One Honest Question 😌</h2>
-        <p>Which one matters most?</p>
+    <p>
+      Happy Chocolate Day!<br>
+      Stay sweet, stay kind 🤍
+    </p>
 
-        <div class="choice" onclick="next()">Love ❤️</div>
-        <div class="choice" onclick="next()">Trust 🤝</div>
-        <div class="choice" onclick="next()">Us 💍</div>
-    </div>
+    <button onclick="location.reload()">Play Again 🔁</button>
+  </div>
 
-    <!-- SCENE 4 JUMPING NO -->
-    <div class="scene">
-        <h2>Will you accept my promise? 😈💖</h2>
+</div>
 
-        <div id="finalBox">
-            <button onclick="yes()">YES 💍</button>
-            <button id="noBtn" onmouseover="jump()">NO 😜</button>
-        </div>
+<script>
+  
+const music = document.getElementById("bgMusic");
 
-        <h3 id="msg"></h3>
-    </div>
+function startGame() {
+  music.play();
+  go("s2");
+  music.volume = 0.4; // 0 to 1
+music.pause();
 
-    <script>
-        let scenes = document.querySelectorAll(".scene");
-        let i = 0;
+}
 
-        function next() {
-            scenes[i].classList.remove("active");
-            i++;
-            scenes[i].classList.add("active");
-        }
 
-        /* JUMPING NO */
-        function jump() {
-            let n = document.getElementById("noBtn");
-            n.style.left = Math.random() * 70 + "%";
-            n.style.top = Math.random() * 70 + "%";
-        }
+/* SCENE SWITCH */
 
-        function yes() {
-            document.getElementById("msg").innerHTML =
-                "Promise accepted 🥹❤️<br>Forever starts now 💍";
-        }
-    </script>
+function go(id) {
+  document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+/* CORRECT / WRONG LOGIC */
+const correctIndex = Math.floor(Math.random() * 3);
+
+function checkChocolate(index) {
+  const warn = document.getElementById("warning");
+
+  if (index === correctIndex) {
+    warn.style.color = "#a5d6a7";
+    warn.innerText = "Correct choice 🍫💖";
+    setTimeout(() => go("s3"), 800);
+  } else {
+    warn.style.color = "#ff8a80";
+    warn.innerText = "Oops! Wrong chocolate 😅 Try again";
+    setTimeout(() => warn.innerText = "", 2000);
+  }
+}
+let rainInterval;
+
+function startRain() {
+  rainInterval = setInterval(rain, 350);
+}
+
+
+function go(id) {
+  document.querySelectorAll(".scene").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+
+  if (id === "s3") startRain();
+}
+
+/* FALLING CHOCOLATES */
+function rain() {
+  const c = document.createElement("div");
+  c.className = "choco";
+  c.innerText = "🍫";
+  c.style.left = Math.random() * 100 + "vw";
+  c.style.animationDuration = (Math.random() * 3 + 4) + "s";
+  document.body.appendChild(c);
+  setTimeout(() => c.remove(), 7000);
+}
+setInterval(rain, 350);
+</script>
 
 </body>
-
 </html>
