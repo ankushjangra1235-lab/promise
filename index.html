@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise Day 💖</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Segoe UI, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            padding: 15px;
+        }
+
+        /* SCENE BOX */
+        .scene {
+            display: none;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .scene.active {
+            display: block;
+        }
+
+        /* BUTTON */
+        button {
+            margin-top: 15px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 30px;
+            background: #fff;
+            color: #ff4f7b;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        /* PROMISE CARDS */
+        .promise {
+            background: rgba(255, 255, 255, 0.3);
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 14px;
+            font-size: 15px;
+        }
+
+        /* CHOICE */
+        .choice {
+            background: rgba(255, 255, 255, 0.35);
+            padding: 14px;
+            margin: 12px 0;
+            border-radius: 16px;
+            cursor: pointer;
+        }
+
+        /* FINAL */
+        #finalBox {
+            position: relative;
+            height: 220px;
+        }
+
+        #noBtn {
+            position: absolute;
+        }
+
+        /* RESPONSIVE TEXT */
+        @media(max-width:400px) {
+            h1 {
+                font-size: 22px;
+            }
+
+            h2 {
+                font-size: 20px;
+            }
+
+            p {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SCENE 1 -->
+     
+    <div class="scene active">
+        <h1>Happy Promise Day 💖</h1>
+        <p>
+            Today is not about big words,<br>
+            it’s about real feelings ❤️
+        </p>
+        <button onclick="next()">Continue</button>
+    </div>
+
+    <!-- SCENE 2 PROMISE PAGE -->
+    <div class="scene">
+        <h2>My Promises To You 📜</h2>
+
+        <div class="promise">🤍 I promise to respect you always</div>
+        <div class="promise">😊 I promise to make you smile</div>
+        <div class="promise">🤝 I promise to stand with you</div>
+        <div class="promise">❤️ I promise honesty & care</div>
+
+        <button onclick="next()">Next</button>
+    </div>
+
+    <!-- SCENE 3 FUN CHOICE -->
+    <div class="scene">
+        <h2>One Honest Question 😌</h2>
+        <p>Which one matters most?</p>
+
+        <div class="choice" onclick="next()">Love ❤️</div>
+        <div class="choice" onclick="next()">Trust 🤝</div>
+        <div class="choice" onclick="next()">Us 💍</div>
+    </div>
+
+    <!-- SCENE 4 JUMPING NO -->
+    <div class="scene">
+        <h2>Will you accept my promise? 😈💖</h2>
+
+        <div id="finalBox">
+            <button onclick="yes()">YES 💍</button>
+            <button id="noBtn" onmouseover="jump()">NO 😜</button>
+        </div>
+
+        <h3 id="msg"></h3>
+    </div>
+
+    <script>
+        let scenes = document.querySelectorAll(".scene");
+        let i = 0;
+
+        function next() {
+            scenes[i].classList.remove("active");
+            i++;
+            scenes[i].classList.add("active");
+        }
+
+        /* JUMPING NO */
+        function jump() {
+            let n = document.getElementById("noBtn");
+            n.style.left = Math.random() * 70 + "%";
+            n.style.top = Math.random() * 70 + "%";
+        }
+
+        function yes() {
+            document.getElementById("msg").innerHTML =
+                "Promise accepted 🥹❤️<br>Forever starts now 💍";
+        }
+    </script>
+
+</body>
+
+</html>
